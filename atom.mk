@@ -36,7 +36,6 @@ KERNELVER := $$(cat $(TARGET_OUT)/build/linux/include/config/kernel.release)
 VOCAL_MAKE_ARGS := \
 	ARCH=$(LINUX_SRCARCH) \
 	CONFIG_PREFIX="$(TARGET_OUT_STAGING)" \
-	CFLAGS_MODULE="-DRPI_4B -DI2S_MASTER" \
 	CROSS_COMPILE="$(target_cross)" \
 	CROSS="$(target_cross)" \
 	KERNELDIR="$(KERNELDIR)" \
@@ -50,7 +49,7 @@ $(VOCAL_BUILD_DIR)/$(LOCAL_MODULE_FILENAME):
 	@echo "Building for $(KERNELVER)"
 	cp -f $(VOCAL_SRC_DIR)/loader.c $(VOCAL_BUILD_DIR)/i2s_master_loader.c
 	cp -f $(VOCAL_SRC_DIR)/../i2s_master/Makefile $(VOCAL_BUILD_DIR)/Makefile
-	cd $(VOCAL_BUILD_DIR) && $(VOCAL_MAKE_ARGS) $(MAKE) -C $(KERNELDIR) M=$(VOCAL_BUILD_DIR) modules
+	cd $(VOCAL_BUILD_DIR) && $(VOCAL_MAKE_ARGS) $(MAKE) -C $(KERNELDIR) M=$(VOCAL_BUILD_DIR) modules CFLAGS_MODULE="-DRPI_4B -DI2S_MASTER"
 	cd $(VOCAL_BUILD_DIR) && $(VOCAL_MAKE_ARGS) $(MAKE) -C $(KERNELDIR) M=$(VOCAL_BUILD_DIR) INSTALL_MOD_PATH=$(TARGET_OUT_STAGING) modules_install
 
 include $(BUILD_CUSTOM)
